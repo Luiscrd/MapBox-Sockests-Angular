@@ -1,3 +1,7 @@
+<p align="center">
+  <img alt="Angular" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.kGQqE0J7s7FXZns9_pP2jgHaHa%26pid%3DApi&f=1&ipt=b08a6f4cc609ea64eead5489f9205cfed88b975f7f1c97141049c2730715fc1c&ipo=images" width="300">
+</p>
+
 # MapboxSockets
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.8.
