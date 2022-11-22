@@ -1,8 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl'
 import { v4 as uuidv4 } from 'uuid';
+import { Socket } from 'ngx-socket-io';
 import { Place } from 'src/app/interfaces/place.interface';
 import { environment } from '../../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+
+interface RespMarkers {
+  [key: string]: Place
+}
 
 @Component({
   selector: 'app-map',
@@ -13,35 +19,29 @@ export class MapComponent implements OnInit {
 
   private map!: mapboxgl.Map;
 
-  places: Place[] = [{
-    id: uuidv4(),
-    name: 'Luis',
-    lng: -75.75512993545835,
-    lat: 45.351977429012345,
-    color: '#dd8fee'
-  },
-  {
-    id: uuidv4(),
-    name: 'Fernando',
-    lng: -75.75195645527508,
-    lat: 45.351584045823756,
-    color: '#790af0'
-  },
-  {
-    id: uuidv4(),
-    name: 'Coral',
-    lng: -75.75900589557777,
-    lat: 45.34794635758547,
-    color: '#19884b'
-  }];
+  places: RespMarkers = {};
 
-  constructor() { }
+  constructor(
+
+    // private socket: Socket
+
+    private http: HttpClient
+
+    ) { }
 
   ngOnInit(): void {
 
-    this.createMap();
+    this.http.get<RespMarkers>('http://localhost:5000/map').subscribe(markers => {
 
-    this.places.forEach(place => this.addMarker(place));
+      this.places = markers;
+
+      this.createMap();
+
+    })
+
+  }
+
+  listenSockets() {
 
   }
 
@@ -55,6 +55,12 @@ export class MapComponent implements OnInit {
       center: [-75.75512993582937, 45.349977429009954],
       zoom: 15.8
     });
+
+    for (const [key, marker] of Object.entries(this.places)) {
+
+      this.addMarker(marker);
+
+    }
 
   }
 
