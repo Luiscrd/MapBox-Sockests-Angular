@@ -1,3 +1,6 @@
-<button>Crear Marcador</button>
+<button (click)="createMarker(name)">Crear Marcador</button>
+<input type="text" name="name" placeholder="Introduce nombre" (keyup)="name.removeAttribute('class')" #name>
 
 <div id="mapa"></div>
+
+<img src="assets/angular.png" alt="Angular" class="angular">
