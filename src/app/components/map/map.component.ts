@@ -5,6 +5,7 @@ import { Socket } from 'ngx-socket-io';
 import { Place } from 'src/app/interfaces/place.interface';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { WebsocketService } from 'src/app/services/websocket.service';
 
 interface RespMarkers {
   [key: string]: Place
@@ -23,9 +24,11 @@ export class MapComponent implements OnInit {
 
   constructor(
 
-    // private socket: Socket
+    private socket: Socket,
 
-    private http: HttpClient
+    private http: HttpClient,
+
+    private wsService: WebsocketService
 
     ) { }
 
@@ -39,9 +42,12 @@ export class MapComponent implements OnInit {
 
     })
 
+    this.listenSockets();
+
   }
 
   listenSockets() {
+
 
   }
 
@@ -101,8 +107,6 @@ export class MapComponent implements OnInit {
 
       const lngLat = markerMap.getLngLat();
 
-      console.log(lngLat);
-
     });
 
     btn.addEventListener('click', () => {
@@ -136,6 +140,8 @@ export class MapComponent implements OnInit {
     this.addMarker(customMasrker);
 
     input.value = '';
+
+    this.wsService.emit('new-marker', customMasrker);
 
   }
 
